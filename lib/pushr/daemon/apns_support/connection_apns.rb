@@ -86,7 +86,7 @@ module Pushr
           @tcp_socket, @ssl_socket = connect_socket
         end
 
-        def check_for_error
+        def check_for_error(notification)
           # check for true, because check_for_error can be nil
           return if @configuration.skip_check_for_error == true
 
@@ -103,7 +103,7 @@ module Pushr
             end
 
             begin
-              Pushr::Daemon.logger.error("[#{name}] Error received, reconnecting...")
+              Pushr::Daemon.logger.error("[#{@name}] Error received, reconnecting...")
               reconnect
             ensure
               raise error if error
