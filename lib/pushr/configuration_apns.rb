@@ -11,7 +11,7 @@ module Pushr
     end
 
     def to_json
-      ::MultiJson.dump({gem: 'push-apns', type: self.class.to_s, app: @app, enabled: @enabled, connections: @connections, certificate: @certificate, certificate_password: @certificate_password, sandbox: @sandbox, feedback_poll: @feedback_poll, skip_check_for_error: @skip_check_for_error})
+      ::MultiJson.dump({gem: 'pushr-apns', type: self.class.to_s, app: @app, enabled: @enabled, connections: @connections, certificate: @certificate, certificate_password: @certificate_password, sandbox: @sandbox, feedback_poll: @feedback_poll, skip_check_for_error: @skip_check_for_error})
     end
   end
 end
