@@ -52,7 +52,7 @@ module Pushr
         def create_feedback(connection, failed_at, device)
           formatted_failed_at = failed_at.strftime("%Y-%m-%d %H:%M:%S UTC")
           Pushr::Daemon.logger.info("[#{connection.name}: Delivery failed at #{formatted_failed_at} for #{device}")
-          Pushr::FeedbackApns.new(app: @configuration.name, failed_at: failed_at, device: device, follow_up: 'delete').save
+          Pushr::FeedbackApns.new(app: @configuration.app, failed_at: failed_at, device: device, follow_up: 'delete').save
         end
       end
     end
