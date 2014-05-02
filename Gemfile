@@ -13,5 +13,7 @@ gemspec
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
-gem 'pushr-core', path: '../pushr-core'
+gem 'rake'
+gem 'pushr-core', github: '9to5/pushr-core', branch: 'develop'
+gem 'coveralls', require: false
 gem 'rubocop'
