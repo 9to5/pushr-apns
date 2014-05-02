@@ -11,7 +11,7 @@ module Pushr
 
     def alert=(alert)
       if alert.is_a?(Hash)
-        @alert = MultiJson.dump(alert)
+        alert = MultiJson.dump(alert)
       else
         @alert = alert
       end
@@ -37,7 +37,9 @@ module Pushr
     end
 
     def to_json
-      MultiJson.dump(type: self.class.to_s, app: @app, device: @device, alert: @alert, badge: @badge, sound: @sound, expiry: @expiry, attributes_for_device: @attributes_for_device)
+      hsh = { type: self.class.to_s, app: app, device: device, alert: alert, badge: badge,
+              sound: sound, expiry: expiry, attributes_for_device: attributes_for_device }
+      MultiJson.dump(hsh)
     end
 
     private
