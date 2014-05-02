@@ -4,11 +4,11 @@ module Pushr
 
     def initialize
       @code = nil
-      @description = "APNs disconnected without returning an error."
+      @description = 'APNs disconnected without returning an error.'
     end
 
     def message
-      "The APNs disconnected without returning an error. This may indicate you are using an invalid certificate for the host."
+      'The APNs disconnected without returning an error. This may indicate you are using an invalid certificate for the host.'
     end
   end
 end

@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
 # Declare your gem's dependencies in push-apns.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -13,4 +13,5 @@ gemspec
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
-gem 'pushr-core', :path => "~/code/pushr/pushr-core"
+gem 'pushr-core', path: '../pushr-core'
+gem 'rubocop'

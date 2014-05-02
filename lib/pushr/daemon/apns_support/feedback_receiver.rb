@@ -45,12 +45,12 @@ module Pushr
         protected
 
         def parse_tuple(tuple)
-          failed_at, _, device = tuple.unpack("N1n1H*")
+          failed_at, _, device = tuple.unpack('N1n1H*')
           [Time.at(failed_at).utc, device]
         end
 
         def create_feedback(connection, failed_at, device)
-          formatted_failed_at = failed_at.strftime("%Y-%m-%d %H:%M:%S UTC")
+          formatted_failed_at = failed_at.strftime('%Y-%m-%d %H:%M:%S UTC')
           Pushr::Daemon.logger.info("[#{connection.name}: Delivery failed at #{formatted_failed_at} for #{device}")
           Pushr::FeedbackApns.new(app: @configuration.app, failed_at: failed_at, device: device, follow_up: 'delete').save
         end

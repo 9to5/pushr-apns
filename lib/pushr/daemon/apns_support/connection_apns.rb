@@ -10,18 +10,18 @@ module Pushr
         SELECT_TIMEOUT = 0.2
         ERROR_TUPLE_BYTES = 6
         APN_ERRORS = {
-          1 => "Processing error",
-          2 => "Missing device token",
-          3 => "Missing topic",
-          4 => "Missing payload",
-          5 => "Missing token size",
-          6 => "Missing topic size",
-          7 => "Missing payload size",
-          8 => "Invalid token",
-          255 => "None (unknown error)"
+          1 => 'Processing error',
+          2 => 'Missing device token',
+          3 => 'Missing topic',
+          4 => 'Missing payload',
+          5 => 'Missing token size',
+          6 => 'Missing topic size',
+          7 => 'Missing payload size',
+          8 => 'Invalid token',
+          255 => 'None (unknown error)'
         }
 
-        def initialize(configuration, i=nil)
+        def initialize(configuration, i = nil)
           @configuration = configuration
           if i
             # Apns push connection
@@ -42,11 +42,9 @@ module Pushr
         end
 
         def close
-          begin
-            @ssl_socket.close if @ssl_socket
-            @tcp_socket.close if @tcp_socket
-          rescue IOError
-          end
+          @ssl_socket.close if @ssl_socket
+          @tcp_socket.close if @tcp_socket
+        rescue IOError
         end
 
         def read(num_bytes)
@@ -65,7 +63,7 @@ module Pushr
           begin
             write_data(data)
           rescue Errno::EPIPE, Errno::ETIMEDOUT, Errno::ECONNRESET, OpenSSL::SSL::SSLError => e
-            retry_count += 1;
+            retry_count += 1
 
             if retry_count == 1
               Pushr::Daemon.logger.error("[#{@name}] Lost connection to #{@host}:#{@port} (#{e.class.name}), reconnecting...")
@@ -76,7 +74,7 @@ module Pushr
               sleep 1
               retry
             else
-              raise ConnectionError, "#{@name} tried #{retry_count-1} times to reconnect but failed (#{e.class.name})."
+              raise ConnectionError, "#{@name} tried #{retry_count - 1} times to reconnect but failed (#{e.class.name})."
             end
           end
         end
@@ -94,10 +92,10 @@ module Pushr
             error = nil
 
             if tuple = read(ERROR_TUPLE_BYTES)
-              cmd, code, notification_id = tuple.unpack("ccN")
+              cmd, code, notification_id = tuple.unpack('ccN')
 
-              description = APN_ERRORS[code.to_i] || "Unknown error. Possible push bug?"
-              error = Pushr::DeliveryError.new(code, notification_id, description, "APNS")
+              description = APN_ERRORS[code.to_i] || 'Unknown error. Possible push bug?'
+              error = Pushr::DeliveryError.new(code, notification_id, description, 'APNS')
             else
               error = Pushr::DisconnectionError.new
             end
@@ -106,7 +104,7 @@ module Pushr
               Pushr::Daemon.logger.error("[#{@name}] Error received, reconnecting...")
               reconnect
             ensure
-              raise error if error
+              fail error if error
             end
           end
         end
@@ -119,7 +117,7 @@ module Pushr
         end
 
         def idle_period_exceeded?
-           Time.now - last_write > IDLE_PERIOD
+          Time.now - last_write > IDLE_PERIOD
         end
 
         def write_data(data)

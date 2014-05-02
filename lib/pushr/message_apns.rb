@@ -4,9 +4,9 @@ module Pushr
 
     attr_accessor :type, :app, :device, :alert, :badge, :sound, :expiry, :attributes_for_device
 
-    validates :badge, :numericality => true, :allow_nil => true
-    validates :expiry, :numericality => true, :presence => true
-    validates :device, :format => { :with => /\A[a-z0-9]{64}\z/ }
+    validates :badge, numericality: true, allow_nil: true
+    validates :expiry, numericality: true, presence: true
+    validates :device, format: { with: /\A[a-z0-9]{64}\z/ }
     validates_with Pushr::Apns::BinaryNotificationValidator
 
     def alert=(alert)
@@ -25,7 +25,7 @@ module Pushr
     # This method conforms to the enhanced binary format.
     # http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/CommunicatingWIthAPS/CommunicatingWIthAPS.html#//apple_ref/doc/uid/TP40008194-CH101-SW4
     def to_message
-      [1, 0, expiry, 0, 32, device, payload_size, payload].pack("cNNccH*na*")
+      [1, 0, expiry, 0, 32, device, payload_size, payload].pack('cNNccH*na*')
     end
 
     def payload
@@ -37,7 +37,7 @@ module Pushr
     end
 
     def to_json
-      MultiJson.dump({ type: self.class.to_s, app: @app, device: @device, alert: @alert, badge: @badge, sound: @sound, expiry: @expiry, attributes_for_device: @attributes_for_device })
+      MultiJson.dump(type: self.class.to_s, app: @app, device: @device, alert: @alert, badge: @badge, sound: @sound, expiry: @expiry, attributes_for_device: @attributes_for_device)
     end
 
     private
