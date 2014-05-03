@@ -11,7 +11,7 @@ module Pushr
 
     def alert=(alert)
       if alert.is_a?(Hash)
-        alert = MultiJson.dump(alert)
+        @alert = MultiJson.dump(alert)
       else
         @alert = alert
       end
