@@ -2,27 +2,28 @@ module Pushr
   module Daemon
     module ApnsSupport
       class FeedbackReceiver
-        include InterruptibleSleep
 
         FEEDBACK_TUPLE_BYTES = 38
 
         def initialize(configuration)
           @configuration = configuration
+          @interruptible_sleep = InterruptibleSleep.new
         end
 
         def start
-          Thread.new do
+          @thread = Thread.new do
             loop do
               break if @stop
               check_for_feedback
-              interruptible_sleep @configuration.feedback_poll
+              @interruptible_sleep.sleep @configuration.feedback_poll
             end
           end
         end
 
         def stop
           @stop = true
-          interrupt_sleep
+          @interruptible_sleep.interrupt_sleep
+          @thread.join if @thread
         end
 
         def check_for_feedback
