@@ -7,7 +7,7 @@ module Pushr
     validates :badge, numericality: true, allow_nil: true
     validates :expiry, numericality: true, presence: true
     validates :device, format: { with: /\A[a-z0-9]{64}\z/ }
-    validates_with Pushr::Apns::BinaryNotificationValidator
+    validate :max_payload_size
 
     def alert=(alert)
       if alert.is_a?(Hash)
@@ -52,6 +52,12 @@ module Pushr
       json['aps']['sound'] = sound if sound
       attributes_for_device.each { |k, v| json[k.to_s] = v.to_s } if attributes_for_device
       json
+    end
+
+    def max_payload_size
+      if payload_size > 256
+        errors.add(:payload, 'APN notification cannot be larger than 256 bytes. Try condensing your alert and device attributes.')
+      end
     end
   end
 end

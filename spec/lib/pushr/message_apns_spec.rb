@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pushr/apns/binary_notification_validator'
 require 'pushr/message_apns'
 
 describe Pushr::MessageApns do

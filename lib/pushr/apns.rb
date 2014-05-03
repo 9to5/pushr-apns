@@ -1,7 +1,6 @@
 require 'socket'
 require 'pathname'
 require 'pushr-apns/version'
-require 'pushr/apns/binary_notification_validator'
 require 'pushr/configuration'
 require 'pushr/configuration_apns'
 require 'pushr/message'
