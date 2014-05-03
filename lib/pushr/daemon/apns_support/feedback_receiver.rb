@@ -11,7 +11,7 @@ module Pushr
         end
 
         def start
-          @thread = Thread.new do
+          Thread.new do
             loop do
               break if @stop
               check_for_feedback
