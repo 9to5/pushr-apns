@@ -121,7 +121,7 @@ module Pushr
         end
 
         def write_data(data)
-          @ssl_socket.write(data)
+          @ssl_socket.write(data.to_message)
           @ssl_socket.flush
           written
         end
