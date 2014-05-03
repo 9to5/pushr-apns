@@ -19,7 +19,9 @@ module Pushr
 
     def alert
       string_or_json = @alert
-      MultiJson.load(string_or_json) rescue string_or_json
+      return MultiJson.load(string_or_json)
+    rescue
+      return string_or_json
     end
 
     # This method conforms to the enhanced binary format.
