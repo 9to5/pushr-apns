@@ -2,7 +2,7 @@ module Pushr
   module Daemon
     module ApnsSupport
       class FeedbackReceiver
-        include Pushr::Daemon::InterruptibleSleep
+        include InterruptibleSleep
 
         FEEDBACK_TUPLE_BYTES = 38
 
@@ -28,7 +28,7 @@ module Pushr
         def check_for_feedback
           connection = nil
           begin
-            connection = ApnsSupport::ConnectionApns.new(@configuration)
+            connection = ConnectionApns.new(@configuration)
             connection.connect
 
             while tuple = connection.read(FEEDBACK_TUPLE_BYTES)
