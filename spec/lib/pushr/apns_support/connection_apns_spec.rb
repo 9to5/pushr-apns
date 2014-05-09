@@ -38,6 +38,7 @@ describe Pushr::Daemon::ApnsSupport::ConnectionApns do
 
   describe 'sends a message' do
     it 'succesful' do
+      expect(IO).to receive(:select).with([sslsocket], nil, nil, 0.2)
       expect(sslsocket).to receive(:write).with(message.to_message)
       connection.connect
       connection.write(message)

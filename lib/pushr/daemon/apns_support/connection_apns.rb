@@ -77,6 +77,7 @@ module Pushr
               raise ConnectionError, "#{@name} tried #{retry_count - 1} times to reconnect but failed (#{e.class.name})."
             end
           end
+          check_for_error(data)
         end
 
         def reconnect
