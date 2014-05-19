@@ -22,7 +22,7 @@ module Pushr
 
         def stop
           @stop = true
-          @interruptible_sleep.interrupt_sleep
+          @interruptible_sleep.interrupt
           @thread.join if @thread
         end
 

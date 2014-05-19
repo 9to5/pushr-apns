@@ -11,7 +11,8 @@ describe Pushr::Daemon::ApnsSupport::InterruptibleSleep do
 
   it 'creates a new pipe' do
     expect(IO).to receive(:pipe).and_return([rd, wr])
-    subject
+    allow(IO).to receive(:select).with([rd], nil, nil, 1)
+    subject.sleep(1)
   end
 
   it 'selects on the reader' do
@@ -22,17 +23,9 @@ describe Pushr::Daemon::ApnsSupport::InterruptibleSleep do
 
   it 'closes the writer' do
     allow(IO).to receive(:pipe).and_return([rd, wr])
-    expect(rd).to receive(:close)
+    allow(IO).to receive(:select).with([rd], nil, nil, 1)
     expect(wr).to receive(:close)
-    subject.close
-  end
-
-  it 'returns false when timeout occurs' do
-    expect(subject.sleep(0.01)).to eql false
-  end
-
-  it 'returns true when sleep does not timeout' do
-    subject.interrupt_sleep
-    expect(subject.sleep(0.01)).to eql true
+    subject.sleep(1)
+    subject.interrupt
   end
 end
