@@ -17,8 +17,8 @@ describe Pushr::MessageApns do
 
   describe 'save' do
     let(:message) do
-      hsh = { app: 'app_name', device: 'a' * 64,  alert: 'message',
-              badge: 1, sound: '1.aiff', expiry: 24 * 60 * 60, attributes_for_device: { key: 'test' } }
+      hsh = { app: 'app_name', device: 'a' * 64,  alert: 'message', badge: 1, sound: '1.aiff',
+              expiry: 24 * 60 * 60, attributes_for_device: { key: 'test' }, priority: 10 }
       Pushr::MessageApns.new(hsh)
     end
 

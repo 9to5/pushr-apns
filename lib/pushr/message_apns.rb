@@ -2,11 +2,13 @@ module Pushr
   class MessageApns < Pushr::Message
     POSTFIX = 'apns'
 
-    attr_accessor :type, :app, :device, :alert, :badge, :sound, :expiry, :attributes_for_device
+    attr_accessor :type, :app, :device, :alert, :badge, :sound, :expiry, :attributes_for_device, :content_available, :priority
 
     validates :badge, numericality: true, allow_nil: true
     validates :expiry, numericality: true, presence: true
     validates :device, format: { with: /\A[a-z0-9]{64}\z/ }
+    validates :priority, inclusion: { in: [5, 10] }
+    validates :content_available, inclusion: { in: [1] }, allow_nil: true
     validate :max_payload_size
 
     def alert=(alert)
@@ -24,10 +26,18 @@ module Pushr
       return string_or_json
     end
 
-    # This method conforms to the enhanced binary format.
-    # http://developer.apple.com/library/ios/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/CommunicatingWIthAPS/CommunicatingWIthAPS.html#//apple_ref/doc/uid/TP40008194-CH101-SW4
+    def id
+      @id ||= OpenSSL::Random.random_bytes(4)
+    end
+
     def to_message
-      [1, 0, expiry, 0, 32, device, payload_size, payload].pack('cNNccH*na*')
+      data = ''
+      data << [1, [device].pack('H*').bytesize, [device].pack('H*')].pack('CnA*')
+      data << [2, payload.bytesize, payload].pack('CnA*')
+      data << [3, id.bytesize, id].pack('CnA*')
+      data << [4, 4, expiry].pack('CnN')
+      data << [5, 1, priority].pack('CnC')
+      ([2, data.bytesize].pack('CN') + data)
     end
 
     def payload
@@ -40,7 +50,8 @@ module Pushr
 
     def to_json
       hsh = { type: self.class.to_s, app: app, device: device, alert: alert, badge: badge,
-              sound: sound, expiry: expiry, attributes_for_device: attributes_for_device }
+              sound: sound, expiry: expiry, attributes_for_device: attributes_for_device,
+              content_available: content_available, priority: priority }
       MultiJson.dump(hsh)
     end
 
@@ -52,6 +63,7 @@ module Pushr
       json['aps']['alert'] = alert if alert
       json['aps']['badge'] = badge if badge
       json['aps']['sound'] = sound if sound
+      json['aps']['content-available'] = content_available if content_available
       attributes_for_device.each { |k, v| json[k.to_s] = v.to_s } if attributes_for_device
       json
     end

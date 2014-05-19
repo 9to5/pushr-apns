@@ -30,8 +30,8 @@ describe Pushr::Daemon::ApnsSupport::ConnectionApns do
     Pushr::ConfigurationApns.new(app: 'app_name', connections: 2, enabled: true, certificate: certificate)
   end
   let(:message) do
-    hsh = { app: 'app_name', device: 'a' * 64,  alert: 'message',
-            badge: 1, sound: '1.aiff', expiry: 24 * 60 * 60, attributes_for_device: { key: 'test' } }
+    hsh = { app: 'app_name', device: 'a' * 64,  alert: 'message', badge: 1, sound: '1.aiff', expiry: 24 * 60 * 60,
+            attributes_for_device: { key: 'test' }, priority: 10 }
     Pushr::MessageApns.new(hsh)
   end
   let(:connection) { Pushr::Daemon::ApnsSupport::ConnectionApns.new(config, 1) }
