@@ -1,6 +1,6 @@
 module Pushr
   module Daemon
-    class Apns
+    class ApnsFeedback
       attr_accessor :configuration, :handlers
 
       def initialize(options)
@@ -10,12 +10,9 @@ module Pushr
 
       def start
         configuration.connections.times do |i|
-          connection = ApnsSupport::ConnectionApns.new(configuration, i + 1)
-          connection.connect
-
-          handler = MessageHandler.new("pushr:#{configuration.app}:#{configuration.name}", connection, configuration.app, i + 1)
-          handler.start
-          @handlers << handler
+          connection = ApnsSupport::FeedbackReceiver.new(configuration, i + 1)
+          connection.start
+          @handlers << connection
         end
       end
 
