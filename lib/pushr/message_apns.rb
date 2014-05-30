@@ -10,6 +10,7 @@ module Pushr
     validates :priority, inclusion: { in: [5, 10] }
     validates :content_available, inclusion: { in: [1] }, allow_nil: true
     validate :max_payload_size
+    validate :priority_with_content_available
 
     def alert=(alert)
       if alert.is_a?(Hash)
@@ -71,6 +72,12 @@ module Pushr
     def max_payload_size
       if payload_size > 256
         errors.add(:payload, 'APN notification cannot be larger than 256 bytes. Try condensing your alert and device attributes.')
+      end
+    end
+
+    def priority_with_content_available
+      if content_available == 1 && priority != 5
+        errors.add(:priority, 'Priority should be 5 if content_available = 1')
       end
     end
   end
