@@ -25,7 +25,7 @@ describe Pushr::Daemon::ApnsSupport::ConnectionApns do
 
   let(:tcpsocket) { double('TCPSocket').as_null_object }
   let(:sslsocket) { double('SSLSocket').as_null_object }
-  let(:certificate) { File.read(File.join(File.dirname(__FILE__), '..', '..', '..', 'support', 'cert_without_password.pem')) }
+  let(:certificate) { File.read(File.join(File.dirname(__FILE__), '..', '..', '..', '..', 'support', 'cert_without_password.pem')) }
   let(:config) do
     Pushr::ConfigurationApns.new(app: 'app_name', connections: 2, enabled: true, certificate: certificate)
   end

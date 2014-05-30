@@ -18,7 +18,7 @@ describe Pushr::ConfigurationApns do
   describe 'create' do
     it 'should create a configuration' do
       config = Pushr::ConfigurationApns.new(app: 'app_name', connections: 2, enabled: true, certificate: 'test', certificate_password: nil,
-                                            sandbox: true, feedback_poll: 100, skip_check_for_error: true)
+                                            sandbox: true, skip_check_for_error: true)
       expect(config.key).to eql('app_name:apns')
     end
   end
@@ -26,7 +26,7 @@ describe Pushr::ConfigurationApns do
   describe 'save' do
     let(:config) do
       Pushr::ConfigurationApns.new(app: 'app_name', connections: 2, enabled: true, certificate: 'test', certificate_password: nil,
-                                   sandbox: true, feedback_poll: 100, skip_check_for_error: true)
+                                   sandbox: true, skip_check_for_error: true)
     end
     it 'should save a configuration' do
       config.save
