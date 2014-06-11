@@ -2,7 +2,6 @@ module Pushr
   module Daemon
     module ApnsSupport
       class FeedbackReceiver
-
         FEEDBACK_TUPLE_BYTES = 38
 
         def initialize(configuration, _)
@@ -27,7 +26,7 @@ module Pushr
         end
 
         def check_every_configuration
-          Pushr::Configuration.all.each do |config|
+          Pushr::Daemon.config.configurations.each do |config|
             if config.enabled == true && config.class == Pushr::ConfigurationApns
               Pushr::Daemon.logger.info("[#{config.app}: Checking for feedback")
               check_for_feedback(config)

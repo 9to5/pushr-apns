@@ -10,10 +10,9 @@ module Pushr
       :apns
     end
 
-    def to_json
-      hsh = { type: self.class.to_s, app: app, enabled: enabled, connections: connections, certificate: certificate,
-              certificate_password: certificate_password, sandbox: sandbox, skip_check_for_error: skip_check_for_error }
-      MultiJson.dump(hsh)
+    def to_hash
+      { type: self.class.to_s, app: app, enabled: enabled, connections: connections, certificate: certificate,
+        certificate_password: certificate_password, sandbox: sandbox, skip_check_for_error: skip_check_for_error }
     end
   end
 end
