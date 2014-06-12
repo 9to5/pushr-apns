@@ -76,8 +76,8 @@ module Pushr
     end
 
     def priority_with_content_available
-      if content_available == 1 && priority != 5
-        errors.add(:priority, 'Priority should be 5 if content_available = 1')
+      if content_available == 1 && priority != 5 && !(alert || badge || sound)
+        errors.add(:priority, 'Priority should be 5 if content_available = 1 and no alert/badge/sound')
       end
     end
   end
