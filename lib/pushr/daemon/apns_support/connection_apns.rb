@@ -39,6 +39,8 @@ module Pushr
         def connect
           @ssl_context = setup_ssl_context
           @tcp_socket, @ssl_socket = connect_socket
+        rescue
+          Pushr::Daemon.logger.error("#{@name}] Error connection to server, invalid certificate?")
         end
 
         def close
