@@ -26,7 +26,7 @@ module Pushr
         end
 
         def check_every_configuration
-          Pushr::Daemon.config.configurations.each do |config|
+          Pushr::Configuration.all.each do |config|
             if config.enabled == true && config.class == Pushr::ConfigurationApns
               Pushr::Daemon.logger.info("[#{config.app}: Checking for feedback")
               check_for_feedback(config)
