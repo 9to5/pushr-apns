@@ -52,7 +52,7 @@ module Pushr
       hsh = { type: self.class.to_s, app: app, device: device, alert: alert, badge: badge,
               sound: sound, expiry: expiry, attributes_for_device: attributes_for_device,
               content_available: content_available, priority: priority }
-      hsh[Pushr.external_id_tag] = external_id if external_id
+      hsh[Pushr::Core.external_id_tag] = external_id if external_id
       MultiJson.dump(hsh)
     end
 
