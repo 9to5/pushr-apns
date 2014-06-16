@@ -7,11 +7,11 @@ module Pushr
     validates :skip_check_for_error, inclusion: { in: [true, false] }, allow_blank: true
 
     def certificate
-      if self[:certificate] =~ /BEGIN CERTIFICATE/
-        self[:certificate]
+      if /BEGIN CERTIFICATE/.match(@certificate)
+        @certificate
       else
         # assume it's the path to the certificate and try to read it:
-        self[:certificate] = read_file( self[:certificate] )
+        @certificate = read_file(@certificate)
       end
     end
 
@@ -23,18 +23,19 @@ module Pushr
       { type: self.class.to_s, app: app, enabled: enabled, connections: connections, certificate: certificate,
         certificate_password: certificate_password, sandbox: sandbox, skip_check_for_error: skip_check_for_error }
     end
-  end
 
-  private
+    private
+
     # if filename is something wacky, this will break and raise an exception - that's OK
     def read_file(filename)
-      if ! Pathname.new(filename).absolute?
+      unless Pathname.new(filename).absolute?
         if Pushr::Daemon.config.configuration_file
-          filename = File.join( File.split( Pushr::Daemon.config.configuration_file ).first , filename)
+          filename = File.join(File.split(Pushr::Daemon.config.configuration_file).first, filename)
         else
-          filename = File.join( Dir.pwd , filename)
+          filename = File.join(Dir.pwd, filename)
         end
       end
-      File.read( filename )
+      File.read(filename)
     end
+  end
 end
