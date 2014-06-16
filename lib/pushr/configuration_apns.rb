@@ -27,7 +27,7 @@ module Pushr
 
   private
     # if filename is something wacky, this will break and raise an exception - that's OK
-    def read_file(filename)
+    def self.read_file(filename)
       if ! Pathname.new(filename).absolute?
         if Pushr::Core.configuration_file
           filename = File.join( File.split( Pushr::Core.configuration_file ).first , filename)
@@ -35,6 +35,8 @@ module Pushr
           filename = File.join( Dir.pwd , filename)
         end
       end
+      puts "reading certificate from file #{filename}"
+
       File.read( filename )
     end
 end
