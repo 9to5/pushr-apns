@@ -2,8 +2,7 @@ module Pushr
   class MessageApns < Pushr::Message
     POSTFIX = 'apns'
 
-    attr_accessor :type, :app, :device, :badge, :sound, :expiry, :attributes_for_device, :content_available, :priority, :external_id
-
+    attr_accessor :device, :badge, :sound, :expiry, :attributes_for_device, :content_available, :priority
     validates :badge, numericality: true, allow_nil: true
     validates :expiry, numericality: true, presence: true
     validates :device, format: { with: /\A[a-z0-9]{64}\z/ }

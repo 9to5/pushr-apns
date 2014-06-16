@@ -1,7 +1,6 @@
 module Pushr
   class ConfigurationApns < Pushr::Configuration
-    attr_accessor :id, :type, :app, :enabled, :connections, :certificate, :certificate_password,
-                  :sandbox, :skip_check_for_error
+    attr_accessor :certificate, :certificate_password, :sandbox, :skip_check_for_error
     validates :certificate, presence: true
     validates :sandbox, inclusion: { in: [true, false] }
     validates :skip_check_for_error, inclusion: { in: [true, false] }, allow_blank: true
