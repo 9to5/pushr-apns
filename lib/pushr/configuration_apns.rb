@@ -29,8 +29,8 @@ module Pushr
     # if filename is something wacky, this will break and raise an exception - that's OK
     def read_file(filename)
       if ! Pathname.new(filename).absolute?
-        if Pushr::Daemon.config.configuration_file
-          filename = File.join( File.split( Pushr::Daemon.config.configuration_file ).first , filename)
+        if Pushr::Core.configuration_file
+          filename = File.join( File.split( Pushr::Core.configuration_file ).first , filename)
         else
           filename = File.join( Dir.pwd , filename)
         end
