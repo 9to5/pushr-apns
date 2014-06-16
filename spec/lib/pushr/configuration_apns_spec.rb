@@ -7,7 +7,9 @@ describe Pushr::ConfigurationApns do
     Pushr::Core.configure do |config|
       config.redis = ConnectionPool.new(size: 1, timeout: 1) { MockRedis.new }
     end
+    Pushr::Daemon.config = settings
   end
+  let(:settings) { Pushr::Daemon::Settings.new }
 
   describe 'all' do
     it 'returns all configurations' do
