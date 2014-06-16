@@ -29,7 +29,7 @@ module Pushr
     def read_file(filename)
       unless Pathname.new(filename).absolute?
         if Pushr::Core.configuration_file
-          filename = File.join(File.split(Pushr::Core.configuration_file).first, filename)
+          filename = File.join(File.dirname(Pushr::Core.configuration_file), filename)
         else
           filename = File.join(Dir.pwd, filename)
         end
