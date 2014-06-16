@@ -2,7 +2,6 @@ module Pushr
   module Daemon
     module ApnsSupport
       class FeedbackReceiver
-
         FEEDBACK_TUPLE_BYTES = 38
 
         def initialize(configuration, _)

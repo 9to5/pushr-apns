@@ -7,9 +7,8 @@ module Pushr
       :apns_feedback
     end
 
-    def to_json
-      hsh = { type: self.class.to_s, app: app, enabled: enabled, connections: connections, feedback_poll: feedback_poll }
-      MultiJson.dump(hsh)
+    def to_hash
+      { type: self.class.to_s, app: app, enabled: enabled, connections: connections, feedback_poll: feedback_poll }
     end
   end
 end
