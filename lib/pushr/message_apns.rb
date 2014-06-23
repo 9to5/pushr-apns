@@ -11,6 +11,11 @@ module Pushr
     validate :max_payload_size
     validate :priority_with_content_available
 
+    def initialize(attributes = {})
+      super
+      @priority = 10 if @priority.nil?
+    end
+
     def alert=(alert)
       if alert.is_a?(Hash)
         @alert = MultiJson.dump(alert)
