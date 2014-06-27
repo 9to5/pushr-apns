@@ -17,11 +17,9 @@ describe Pushr::FeedbackApns do
   end
 
   describe 'save' do
-    let(:feedback) { Pushr::FeedbackApns.new(app: 'app_name', device: 'a' * 64, follow_up: 'delete', failed_at: Time.now) }
+    let!(:feedback) { Pushr::FeedbackApns.create(app: 'app_name', device: 'a' * 64, follow_up: 'delete', failed_at: Time.now) }
     it 'should save a feedback' do
-      feedback.save
-      feedback2 = Pushr::Feedback.next
-      expect(feedback2.class).to eql(Pushr::FeedbackApns)
+      expect(Pushr::Feedback.next.class).to eql(Pushr::FeedbackApns)
     end
   end
 end
