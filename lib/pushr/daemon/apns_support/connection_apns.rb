@@ -98,7 +98,7 @@ module Pushr
               _, code, notification_id = tuple.unpack('ccN')
 
               description = APN_ERRORS[code.to_i] || 'Unknown error. Possible push bug?'
-              error = Pushr::Daemon::DeliveryError.new(code, notification_id, description, 'APNS')
+              error = Pushr::Daemon::DeliveryError.new(code, notification, description, 'APNS')
             else
               error = DisconnectionError.new
             end
