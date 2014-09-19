@@ -2,7 +2,7 @@ module Pushr
   class MessageApns < Pushr::Message
     POSTFIX = 'apns'
 
-    attr_accessor :device, :badge, :sound, :expiry, :attributes_for_device, :content_available, :priority
+    attr_accessor :device, :badge, :sound, :category, :expiry, :attributes_for_device, :content_available, :priority
     validates :badge, numericality: true, allow_nil: true
     validates :expiry, numericality: true, presence: true
     validates :device, format: { with: /\A[a-z0-9]{64}\z/ }
@@ -49,9 +49,9 @@ module Pushr
     end
 
     def to_hash
-      hsh = { type: self.class.to_s, app: app, device: device, alert: alert, badge: badge,
-              sound: sound, expiry: expiry, attributes_for_device: attributes_for_device,
-              content_available: content_available, priority: priority }
+      hsh = { type: self.class.to_s, app: app, device: device, alert: alert, badge: badge, sound: sound, expiry: expiry,
+              category: category, attributes_for_device: attributes_for_device, priority: priority,
+              content_available: content_available }
       hsh[Pushr::Core.external_id_tag] = external_id if external_id
       hsh
     end
@@ -64,6 +64,7 @@ module Pushr
       json['aps']['alert'] = alert if alert
       json['aps']['badge'] = badge if badge
       json['aps']['sound'] = sound if sound
+      json['aps']['category'] = category if category
       json['aps']['content-available'] = content_available if content_available
       attributes_for_device.each { |k, v| json[k.to_s] = v.to_s } if attributes_for_device
       json
