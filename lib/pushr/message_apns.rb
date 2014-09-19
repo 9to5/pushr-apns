@@ -70,8 +70,8 @@ module Pushr
     end
 
     def max_payload_size
-      if payload_size > 256
-        errors.add(:payload, 'APN notification cannot be larger than 256 bytes. Try condensing your alert and device attributes.')
+      if payload_size > 2048
+        errors.add(:payload, 'APN notification cannot be larger than 2048 bytes. Try condensing your alert and attributes.')
       end
     end
 
