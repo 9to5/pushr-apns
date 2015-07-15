@@ -18,8 +18,9 @@ module Pushr
           6 => 'Missing topic size',
           7 => 'Missing payload size',
           8 => 'Invalid token',
+          10 => 'Shutdown (APNS is in maintenance)',
           255 => 'None (unknown error)'
-        }
+        } # https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/CommunicatingWIthAPS.html#//apple_ref/doc/uid/TP40008194-CH101-SW3
 
         def initialize(configuration, i = nil)
           @configuration = configuration
