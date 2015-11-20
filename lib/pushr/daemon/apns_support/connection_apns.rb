@@ -98,8 +98,15 @@ module Pushr
             if tuple = read(ERROR_TUPLE_BYTES)
               _, code, notification_id = tuple.unpack('ccN')
 
-              description = APN_ERRORS[code.to_i] || 'Unknown error. Possible push bug?'
-              error = Pushr::Daemon::DeliveryError.new(code, notification, description, 'APNS')
+              if code.to_i == 8
+                Pushr::FeedbackApns.create(app: @configuration.app, device: notification.device, follow_up: 'delete',
+                                           failed_at: Time.now)
+                Pushr::Daemon.logger.info("[#{@name}] Invalid device (error 8), feedback sent, message delivery failed"\
+                                          " to #{notification.to_json}")
+              else
+                description = APN_ERRORS[code.to_i] || 'Unknown error. Possible push bug?'
+                error = Pushr::Daemon::DeliveryError.new(code, notification, description, 'APNS')
+              end
             else
               error = DisconnectionError.new
             end
