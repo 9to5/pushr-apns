@@ -51,7 +51,7 @@ module Pushr
         end
 
         def read(num_bytes)
-          @ssl_socket.read(num_bytes)
+          @ssl_socket ? @ssl_socket.read(num_bytes) : false
         end
 
         def select(timeout)
