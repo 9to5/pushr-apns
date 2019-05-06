@@ -5,6 +5,7 @@ module Pushr
     attr_accessor :device, :badge, :sound, :category, :expiry, :attributes_for_device, :content_available, :priority
     validates :badge, numericality: true, allow_nil: true
     validates :expiry, numericality: true, presence: true
+    validate :expiry_value
     validates :device, format: { with: /\A[a-z0-9]{64}\z/ }
     validates :priority, inclusion: { in: [5, 10] }
     validates :content_available, inclusion: { in: [1] }, allow_nil: true
@@ -57,6 +58,10 @@ module Pushr
     end
 
     private
+
+    def expiry_value
+      self.expiry > 1000000000  # to ensure user does not pass number of seconds by accident
+    end
 
     def as_json
       json = ActiveSupport::OrderedHash.new
